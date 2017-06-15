@@ -1,6 +1,6 @@
 # VehicleRun
 This sample app is to capture the location on Vehicle Run
-Description: - This app can start/stop location tracking on button click "Start" or "Stop" buttons
+Description: - This app can start/stop location tracking on click "Start" or "Stop" buttons
 
 #Reference:
 https://www.raywenderlich.com/97944/make-app-like-runkeeper-swift-part-1
@@ -12,6 +12,7 @@ https://www.raywenderlich.com/97944/make-app-like-runkeeper-swift-part-1
 /**
 * @description: Function is called on each time interval which is based on the vehicle current speed
 * Implemented logic to capture the location on the specific time intervals, based on the vehicle speed
+
 */
 
 
