@@ -2,9 +2,10 @@
 This sample app is to capture the location on Vehicle Run
 Description: - This app can start/stop location tracking on button click "Start" or "Stop" buttons
 
+#Reference:
+https://www.raywenderlich.com/97944/make-app-like-runkeeper-swift-part-1
 
 #Supported Version: iOS 10.x
-
 
 #Logic
 
@@ -81,3 +82,4 @@ repeats: true)
 }
 
 }
+
