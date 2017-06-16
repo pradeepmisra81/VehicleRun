@@ -16,8 +16,10 @@ import AudioToolbox
 let DetailSegueName = "RunDetails"
 
 class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate {
-    var managedObjectContext: NSManagedObjectContext?
     
+    // MARK: properties
+    
+    var managedObjectContext: NSManagedObjectContext?
     var run: Run!
     var seconds = 0.0
     var distance = 0.0
@@ -42,6 +44,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     var vehicleCurrentSpeed = 0.0
     var vehiclePastSpeed = 0.0
     
+    // MARK: IBOutlets
     @IBOutlet weak var mapView2: MKMapView!
     @IBOutlet weak var promptLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
@@ -51,6 +54,22 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
 
+    // MARK: View Lifecycle Functions
+    /**
+     * @description: Called when the view is going to appear.
+     */
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        mapView2.delegate = self;
+        
+        mapView2.showsUserLocation = true
+    }
+
+    /**
+     * @description: Function is called when the view is going to appear.
+     * @params: animated Bool type
+     * - animated: Whether or not the view should animate.
+     */
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -72,14 +91,12 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         locationManager.distanceFilter = 10.0
         locationManager.requestAlwaysAuthorization()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        mapView2.delegate = self;
-        
-        mapView2.showsUserLocation = true
-    }
-    
+   
+    /**
+     * @description: Function is called when the view is appeared.
+     * @params: animated Bool type
+     * - animated: Whether or not the view should animate.
+     */
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let regionRadius: CLLocationDistance = 1000
@@ -88,12 +105,30 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     }
     
     /**
+     * @description: Function is called to prepare for segue and sender
+     * @params: segue: UIStoryboardSegue and sender: Any
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let detailViewController = segue.destination as? DetailViewController {
+            detailViewController.run = run
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer.invalidate()
+    }
+    
+    
+    // MARK: IBActions
+    
+    /**
      * @description: Function is called on tap the start button to capture the vehicle location,speed etc
+     * @params: sender of AnyObject type
      */
     @IBAction func startPressed(_ sender: AnyObject) {
         startButton.isHidden = true
         promptLabel.isHidden = true
-        
         timeLabel.isHidden = false
         distanceLabel.isHidden = false
         paceLabel.isHidden = false
@@ -111,11 +146,8 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         
         
         timeLabel.text = "Time: 0"
-        
         distanceLabel.text = "Distance: 0"
-        
         paceLabel.text = "Current speed: 0 km/h"//"Pace:
-        
         locationLabel.text = "Current lat:   long: "
         
         timer = Timer.scheduledTimer(timeInterval: timeInterval,
@@ -153,16 +185,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let detailViewController = segue.destination as? DetailViewController {
-            detailViewController.run = run
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        timer.invalidate()
-    }
+    // MARK: Member Functions
     
     /**
      * @description: Function is called on each time interval which is based on the vehicle current speed
@@ -247,6 +270,41 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     }
     
     /**
+     * @description Function is called to save the Run and Location
+     */
+    func saveRun() {
+        // Save Run
+        let savedRun = NSEntityDescription.insertNewObject(forEntityName: "Run",
+                                                           into: managedObjectContext!) as! Run
+        savedRun.distance = NSNumber(value: distance)
+        savedRun.duration = (NSNumber(value: seconds))
+        savedRun.timestamp = NSDate() as Date
+        
+        // Save Location
+        var savedLocations = [Location]()
+        for location in locations {
+            let savedLocation = NSEntityDescription.insertNewObject(forEntityName: "Location",
+                                                                    into: managedObjectContext!) as! Location
+            savedLocation.timestamp = location.timestamp
+            savedLocation.latitude = NSNumber(value: location.coordinate.latitude)
+            savedLocation.longitude = NSNumber(value: location.coordinate.longitude)
+            savedLocations.append(savedLocation)
+        }
+        
+        savedRun.locations = NSOrderedSet(array: savedLocations)
+        run = savedRun
+        
+        //Save Location and Run details in Core Data using managedObjectContext
+        do{
+            try managedObjectContext!.save()
+        }catch{
+            print("Could not save the run!")
+        }
+    }
+    
+    // MARK: delegates
+    
+    /**
      * @description: This location delegate method is called to update the location
      */
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -290,38 +348,6 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         let regionRadius = distance
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,regionRadius * 2.0, regionRadius * 2.0)
         mapView2.setRegion(coordinateRegion, animated: true)
-    }
-    
-    /**
-     * @description Function is called to save the Run and Location
-     */
-    func saveRun() {
-        // 1
-        let savedRun = NSEntityDescription.insertNewObject(forEntityName: "Run",
-                                                           into: managedObjectContext!) as! Run
-        savedRun.distance = NSNumber(value: distance)
-        savedRun.duration = (NSNumber(value: seconds))
-        savedRun.timestamp = NSDate() as Date
-        
-        // 2
-        var savedLocations = [Location]()
-        for location in locations {
-            let savedLocation = NSEntityDescription.insertNewObject(forEntityName: "Location",
-                                                                    into: managedObjectContext!) as! Location
-            savedLocation.timestamp = location.timestamp
-            savedLocation.latitude = NSNumber(value: location.coordinate.latitude)
-            savedLocation.longitude = NSNumber(value: location.coordinate.longitude)
-            savedLocations.append(savedLocation)
-        }
-        
-        savedRun.locations = NSOrderedSet(array: savedLocations)
-        run = savedRun
-
-        do{
-            try managedObjectContext!.save()
-        }catch{
-            print("Could not save the run!")
-        }
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
