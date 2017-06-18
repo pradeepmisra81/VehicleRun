@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		493F83231EF64D38008C86C8 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493F83221EF64D38008C86C8 /* AppConstants.swift */; };
 		49D44D0C1EF25FA6005998AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D0B1EF25FA6005998AC /* AppDelegate.swift */; };
 		49D44D111EF25FA6005998AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49D44D0F1EF25FA6005998AC /* Main.storyboard */; };
 		49D44D141EF25FA6005998AC /* VehicleRun.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D121EF25FA6005998AC /* VehicleRun.xcdatamodeld */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		493F83221EF64D38008C86C8 /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		49D44D081EF25FA6005998AC /* VehicleRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VehicleRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D44D0B1EF25FA6005998AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49D44D101EF25FA6005998AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -96,10 +98,11 @@
 				49D44D391EF260B0005998AC /* HomeViewController.swift */,
 				49D44D3A1EF260B0005998AC /* MulticolorPolylineSegment.swift */,
 				49D44D3B1EF260B0005998AC /* VehicleRunViewController.swift */,
+				49D44D0B1EF25FA6005998AC /* AppDelegate.swift */,
+				493F83221EF64D38008C86C8 /* AppConstants.swift */,
 				49D44D321EF2608E005998AC /* Images.xcassets */,
 				49D44D2F1EF26073005998AC /* LaunchScreen.xib */,
 				49D44D2E1EF25FCB005998AC /* Model */,
-				49D44D0B1EF25FA6005998AC /* AppDelegate.swift */,
 				49D44D0F1EF25FA6005998AC /* Main.storyboard */,
 				49D44D1A1EF25FA6005998AC /* Info.plist */,
 				49D44D121EF25FA6005998AC /* VehicleRun.xcdatamodeld */,
@@ -237,6 +240,7 @@
 				49D44D411EF29EA8005998AC /* README.md in Sources */,
 				49D44D0C1EF25FA6005998AC /* AppDelegate.swift in Sources */,
 				49D44D3D1EF260B0005998AC /* HomeViewController.swift in Sources */,
+				493F83231EF64D38008C86C8 /* AppConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,14 +10,15 @@ https://www.raywenderlich.com/97944/make-app-like-runkeeper-swift-part-1
 
 #Supported Version: iOS 10.x
 
-#Logic
+#Logic in the file VehicleRunViewController.swift
+
+File: VehicleRunViewController.swift
+
+// MARK: Member Functions
 
 /**
 * @description: Function is called on each time interval which is based on the vehicle current speed
-* Implemented logic to capture the location on the specific time intervals, based on the vehicle speed
-
 */
-
 
 func eachInterval(_ timer1: Timer) {
 
@@ -46,34 +47,14 @@ currentlocationMessage = currentlocationMessage + "lat: \(String(describing: lat
 
 locationLabel.text = currentlocationMessage
 
-let speedDiff = abs(vehicleCurrentSpeed - vehiclePastSpeed)
+
 
 vehiclePastSpeed = vehicleCurrentSpeed
 
 let oldTimeInterval = timeInterval
 
-// Implemented logic for location update based on the vehicle speed
-if vehicleCurrentSpeed >= 80 {
-timeInterval = 30
-}
-else if (vehicleCurrentSpeed >= 60) && (vehicleCurrentSpeed < 80) && speedDiff <= 20 {
-timeInterval = 60
-}
-else if (vehicleCurrentSpeed >= 30) && (vehicleCurrentSpeed < 60) && speedDiff <= 20 {
-timeInterval = 120
-}
-else if (vehicleCurrentSpeed < 30) && (vehicleCurrentSpeed > 0) {
-timeInterval = 300
-}
-else if speedDiff > 20  && oldTimeInterval == 30{
-timeInterval = 60
-}
-else if speedDiff > 20  && oldTimeInterval == 60{
-timeInterval = 120
-}
-else if speedDiff > 20  && oldTimeInterval == 120{
-timeInterval = 300
-}
+// calculate the time interval for the location update
+timeInterval = calulateTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, pastTimeInterval: oldTimeInterval)
 
 
 if oldTimeInterval != timeInterval {
@@ -86,4 +67,46 @@ repeats: true)
 }
 
 }
+
+/**
+* @description: Function is called to calculate the time interval which is based on the current speed 
+* and past speed of the vehicle
+*/
+
+func calulateTimeInterval(_ currentSpeed:Double, pastSpeed:Double, pastTimeInterval:Double) -> Double {
+
+let speedDiff = abs(currentSpeed - pastSpeed)
+
+// Implemented logic for location update based on the vehicle speed
+if currentSpeed >= 80 {
+timeInterval = 30
+}
+else if (currentSpeed >= 60) && (currentSpeed < 80) && speedDiff <= 20 {
+timeInterval = 60
+}
+else if (currentSpeed >= 30) && (currentSpeed < 60) && speedDiff <= 20 {
+timeInterval = 120
+}
+else if (currentSpeed < 30) && (currentSpeed > 0) {
+timeInterval = 300
+}
+else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed > pastSpeed) {
+timeInterval = 30
+}
+else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed < pastSpeed) {
+timeInterval = 60
+}
+else if speedDiff > 20  && pastTimeInterval == 60 && (currentSpeed > pastSpeed) {
+timeInterval = 30
+}
+else if speedDiff > 20  && pastTimeInterval == 60 && (currentSpeed < pastSpeed){
+timeInterval = 120
+}
+else if speedDiff > 20  && pastTimeInterval == 120{
+timeInterval = 300
+}
+
+return timeInterval
+}
+
 
