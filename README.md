@@ -18,6 +18,7 @@ File: VehicleRunViewController.swift
 
 /**
 * @description: Function is called on each time interval which is based on the vehicle current speed
+*
 */
 
 func eachInterval(_ timer1: Timer) {
@@ -73,6 +74,7 @@ repeats: true)
 /**
 * @description: Function is called to calculate the time interval which is based on the current speed 
 * and past speed of the vehicle
+*
 */
 
 
