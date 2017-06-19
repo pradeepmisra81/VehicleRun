@@ -284,9 +284,6 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         else if speedDiff > 20  && pastTimeInterval == 120 && (currentSpeed < pastSpeed){
             timeInterval = 300
         }
-//        else if speedDiff > 20  && pastTimeInterval == 120{
-//            timeInterval = 300
-//        }
         
         return timeInterval
     }

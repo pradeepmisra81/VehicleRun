@@ -251,33 +251,42 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         let speedDiff = abs(currentSpeed - pastSpeed)
         
         // Implemented logic for location update based on the vehicle speed
-        if currentSpeed >= 80 {
+        if (currentSpeed >= 80) && (speedDiff <= 20){
             timeInterval = 30
         }
-        else if (currentSpeed >= 60) && (currentSpeed < 80) && speedDiff <= 20 {
+        else if (currentSpeed >= 60) && (currentSpeed < 80) && (speedDiff <= 20) {
             timeInterval = 60
         }
-        else if (currentSpeed >= 30) && (currentSpeed < 60) && speedDiff <= 20 {
+        else if (currentSpeed >= 30) && (currentSpeed < 60) && (speedDiff <= 20) {
             timeInterval = 120
         }
-        else if (currentSpeed < 30) && (currentSpeed > 0) {
+        else if (currentSpeed < 30) && (speedDiff <= 20){
             timeInterval = 300
         }
         else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed > pastSpeed) {
             timeInterval = 30
         }
-        else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed < pastSpeed) {
-            timeInterval = 60
-        }
         else if speedDiff > 20  && pastTimeInterval == 60 && (currentSpeed > pastSpeed) {
             timeInterval = 30
+        }
+        else if speedDiff > 20  && pastTimeInterval == 120 && (currentSpeed > pastSpeed) {
+            timeInterval = 60
+        }
+        else if speedDiff > 20  && pastTimeInterval == 300 && (currentSpeed > pastSpeed) {
+            timeInterval = 120
+        }
+        else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed < pastSpeed) {
+            timeInterval = 60
         }
         else if speedDiff > 20  && pastTimeInterval == 60 && (currentSpeed < pastSpeed){
             timeInterval = 120
         }
-        else if speedDiff > 20  && pastTimeInterval == 120{
+        else if speedDiff > 20  && pastTimeInterval == 120 && (currentSpeed < pastSpeed){
             timeInterval = 300
         }
+//        else if speedDiff > 20  && pastTimeInterval == 120{
+//            timeInterval = 300
+//        }
         
         return timeInterval
     }

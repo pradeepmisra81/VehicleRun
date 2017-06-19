@@ -19,7 +19,6 @@ File: VehicleRunViewController.swift
 /**
 * @description: Function is called on each time interval which is based on the vehicle current speed
 */
-
 func eachInterval(_ timer1: Timer) {
 
 seconds += timeInterval
@@ -72,37 +71,42 @@ repeats: true)
 * @description: Function is called to calculate the time interval which is based on the current speed 
 * and past speed of the vehicle
 */
-
 func calulateTimeInterval(_ currentSpeed:Double, pastSpeed:Double, pastTimeInterval:Double) -> Double {
 
 let speedDiff = abs(currentSpeed - pastSpeed)
 
 // Implemented logic for location update based on the vehicle speed
-if currentSpeed >= 80 {
+if (currentSpeed >= 80) && (speedDiff <= 20){
 timeInterval = 30
 }
-else if (currentSpeed >= 60) && (currentSpeed < 80) && speedDiff <= 20 {
+else if (currentSpeed >= 60) && (currentSpeed < 80) && (speedDiff <= 20) {
 timeInterval = 60
 }
-else if (currentSpeed >= 30) && (currentSpeed < 60) && speedDiff <= 20 {
+else if (currentSpeed >= 30) && (currentSpeed < 60) && (speedDiff <= 20) {
 timeInterval = 120
 }
-else if (currentSpeed < 30) && (currentSpeed > 0) {
+else if (currentSpeed < 30) && (speedDiff <= 20){
 timeInterval = 300
 }
 else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed > pastSpeed) {
 timeInterval = 30
 }
-else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed < pastSpeed) {
-timeInterval = 60
-}
 else if speedDiff > 20  && pastTimeInterval == 60 && (currentSpeed > pastSpeed) {
 timeInterval = 30
+}
+else if speedDiff > 20  && pastTimeInterval == 120 && (currentSpeed > pastSpeed) {
+timeInterval = 60
+}
+else if speedDiff > 20  && pastTimeInterval == 300 && (currentSpeed > pastSpeed) {
+timeInterval = 120
+}
+else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed < pastSpeed) {
+timeInterval = 60
 }
 else if speedDiff > 20  && pastTimeInterval == 60 && (currentSpeed < pastSpeed){
 timeInterval = 120
 }
-else if speedDiff > 20  && pastTimeInterval == 120{
+else if speedDiff > 20  && pastTimeInterval == 120 && (currentSpeed < pastSpeed){
 timeInterval = 300
 }
 
