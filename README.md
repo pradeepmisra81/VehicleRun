@@ -19,6 +19,7 @@ File: VehicleRunViewController.swift
 /**
 * @description: Function is called on each time interval which is based on the vehicle current speed
 */
+
 func eachInterval(_ timer1: Timer) {
 
 seconds += timeInterval
@@ -65,17 +66,23 @@ userInfo: nil,
 repeats: true)
 }
 
+
 }
+
 
 /**
 * @description: Function is called to calculate the time interval which is based on the current speed 
 * and past speed of the vehicle
 */
+
+
 func calulateTimeInterval(_ currentSpeed:Double, pastSpeed:Double, pastTimeInterval:Double) -> Double {
+
 
 let speedDiff = abs(currentSpeed - pastSpeed)
 
 // Implemented logic for location update based on the vehicle speed
+
 if (currentSpeed >= 80) && (speedDiff <= 20){
 timeInterval = 30
 }
@@ -111,6 +118,7 @@ timeInterval = 300
 }
 
 return timeInterval
+
 }
 
 
