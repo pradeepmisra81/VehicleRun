@@ -33,15 +33,17 @@ class VehicleRunTests: XCTestCase {
     // current and past speed of the Vehicle
     func testcalulateTimeInterval() {
         
-        let currentSpeed = 60.0
-        let pastSpeed = 40.0
-        let pastTimeInterval = 120.0
+        let currentSpeedArray:[Double] =         [60.0,  90.0, 9.0,  19.0,  29.0,  39.0,   49.0,  59.0, 69.0, 79.0, 89.0, 99.0]
+        let pastSpeedArray:[Double] =            [40.0,  80.0, 90.0, 9.0,   19.0,  29.0,   39.0,  9.0,  89.0, 39.0, 69.0, 59.0]
+        let pastTimeIntervalArray:[Double] =     [120.0, 30.0, 30.0, 300.0, 300.0, 300.0, 120.0, 300.0, 30.0, 120.0, 60.0, 120.0]
+        let expectedTimeIntervalArray:[Double] = [60.0,  30.0, 60.0, 300.0, 300.0, 120.0, 120.0, 120.0, 60.0, 60.0, 30.0, 60.0]
         
-        let calulateTimeInterval = viewController.calulateTimeInterval(Double(currentSpeed), pastSpeed: pastSpeed, pastTimeInterval: pastTimeInterval)
+        for i in 0..<currentSpeedArray.count {
+            
+        let calulatedTimeInterval = viewController.calulateTimeInterval(Double(currentSpeedArray[i]), pastSpeed: pastSpeedArray[i], pastTimeInterval: pastTimeIntervalArray[i])
         
-        let expectedTimeInterval = 60.0
-        
-        XCTAssertTrue((calulateTimeInterval == expectedTimeInterval), "Time interval calculation Test Case: Pass")
+        XCTAssertTrue((calulatedTimeInterval == expectedTimeIntervalArray[i]), "Time interval calculation Test Case for current speed:\(currentSpeedArray[i]): Pass")
+        }
         
     }
     
