@@ -21,9 +21,10 @@ File: VehicleRunViewController.swift
 *
 */
 
-func eachInterval(_ timer1: Timer) {
+func eachInterval(_ timer: Timer) {
 
-seconds += timeInterval
+seconds += currentTimeInterval
+
 let (h,m,s) = secondsToHoursMinutesSeconds(seconds: Int(seconds))
 let secondsQuantity = HKQuantity(unit: HKUnit.second(), doubleValue: Double(s))
 let minutesQuantity = HKQuantity(unit: HKUnit.minute(), doubleValue: Double(m))
@@ -39,88 +40,88 @@ paceLabel.text = "Current speed: "+String((instantPace*3.6*10).rounded()/10)+" k
 
 vehicleCurrentSpeed = (instantPace*3.6*10).rounded()/10
 
+vehiclePastSpeed = vehicleCurrentSpeed
+
+// calculate the time interval for the location update
+nextTimeInterval = calculateNextTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, currentTimeInterval: currentTimeInterval)
+
 var currentlocationMessage = "Current "
 if let loc = self.currentLocation {
 let lat = loc.coordinate.latitude
 let long = loc.coordinate.longitude
 currentlocationMessage = currentlocationMessage + "lat: \(String(describing: lat))   long:\(String(describing: long))"
-}
 
+let customLocation = CustomLocation(timestamp: (self.currentLocation?.timestamp)!, latitude:lat, longitude: long, currenttimeinterval: currentTimeInterval, nexttimeinterval: nextTimeInterval)
+
+customLocations.append(customLocation)
+}
 locationLabel.text = currentlocationMessage
 
 
 
-vehiclePastSpeed = vehicleCurrentSpeed
-
-let oldTimeInterval = timeInterval
-
-// calculate the time interval for the location update
-timeInterval = calulateTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, pastTimeInterval: oldTimeInterval)
-
-
-if oldTimeInterval != timeInterval {
+if currentTimeInterval != nextTimeInterval {
 timer.invalidate()
-timer = Timer.scheduledTimer(timeInterval: timeInterval,
+Timer.scheduledTimer(timeInterval: nextTimeInterval,
 target: self,
 selector: #selector(eachInterval(_:)),
 userInfo: nil,
 repeats: true)
 }
 
+currentTimeInterval = nextTimeInterval
 
 }
-
 
 /**
-* @description: Function is called to calculate the time interval which is based on the current speed 
-* and past speed of the vehicle
-*
+* @description: Function is called to calculate the next time interval which is based on the current
+* speed , past speed of the vehicle
+* @Parameter: currentSpeed or type Double
+* @Parameter: pastSpeed of type Double
+* @Parameter: currentTimeInterval of type Double
+* @Return nextTimeInterval of type Double
 */
 
-
-func calulateTimeInterval(_ currentSpeed:Double, pastSpeed:Double, pastTimeInterval:Double) -> Double {
-
+func calculateNextTimeInterval(_ currentSpeed:Double, pastSpeed:Double, currentTimeInterval:Double) -> Double {
 
 let speedDiff = abs(currentSpeed - pastSpeed)
+var nextTimeInterval = currentTimeInterval
 
 // Implemented logic for location update based on the vehicle speed
-
 if (currentSpeed >= 80) && (speedDiff <= 20){
-timeInterval = 30
+nextTimeInterval = 30
 }
 else if (currentSpeed >= 60) && (currentSpeed < 80) && (speedDiff <= 20) {
-timeInterval = 60
+nextTimeInterval = 60
 }
 else if (currentSpeed >= 30) && (currentSpeed < 60) && (speedDiff <= 20) {
-timeInterval = 120
+nextTimeInterval = 120
 }
 else if (currentSpeed < 30) && (speedDiff <= 20){
-timeInterval = 300
+nextTimeInterval = 300
 }
-else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed > pastSpeed) {
-timeInterval = 30
+else if speedDiff > 20  && (currentTimeInterval == 30) && (currentSpeed > pastSpeed) {
+nextTimeInterval = 30
 }
-else if speedDiff > 20  && pastTimeInterval == 60 && (currentSpeed > pastSpeed) {
-timeInterval = 30
+else if speedDiff > 20  && currentTimeInterval == 60 && (currentSpeed > pastSpeed) {
+nextTimeInterval = 30
 }
-else if speedDiff > 20  && pastTimeInterval == 120 && (currentSpeed > pastSpeed) {
-timeInterval = 60
+else if speedDiff > 20  && currentTimeInterval == 120 && (currentSpeed > pastSpeed) {
+nextTimeInterval = 60
 }
-else if speedDiff > 20  && pastTimeInterval == 300 && (currentSpeed > pastSpeed) {
-timeInterval = 120
+else if speedDiff > 20  && currentTimeInterval == 300 && (currentSpeed > pastSpeed) {
+nextTimeInterval = 120
 }
-else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed < pastSpeed) {
-timeInterval = 60
+else if speedDiff > 20  && (currentTimeInterval == 30) && (currentSpeed < pastSpeed) {
+nextTimeInterval = 60
 }
-else if speedDiff > 20  && pastTimeInterval == 60 && (currentSpeed < pastSpeed){
-timeInterval = 120
+else if speedDiff > 20  && currentTimeInterval == 60 && (currentSpeed < pastSpeed){
+nextTimeInterval = 120
 }
-else if speedDiff > 20  && pastTimeInterval == 120 && (currentSpeed < pastSpeed){
-timeInterval = 300
+else if speedDiff > 20  && currentTimeInterval == 120 && (currentSpeed < pastSpeed){
+nextTimeInterval = 300
 }
 
-return timeInterval
-
+return nextTimeInterval
 }
 
 

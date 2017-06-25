@@ -249,8 +249,12 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     }
 
     /**
-     * @description: Function is called to calculate the time interval which is based on the current speed 
-     * and past speed of the vehicle
+     * @description: Function is called to calculate the next time interval which is based on the current
+     * speed , past speed of the vehicle
+     * @Parameter: currentSpeed or type Double
+     * @Parameter: pastSpeed of type Double
+     * @Parameter: currentTimeInterval of type Double
+     * @Return nextTimeInterval of type Double
      */
     func calculateNextTimeInterval(_ currentSpeed:Double, pastSpeed:Double, currentTimeInterval:Double) -> Double {
         
