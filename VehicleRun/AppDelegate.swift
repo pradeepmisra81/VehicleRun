@@ -71,10 +71,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       let url = self.applicationDocumentsDirectory.appendingPathComponent("VehicleRun.sqlite")
       var error: NSError? = nil
       var failureReason = "There was an error creating or loading the application's saved data."
+    
     do {
         try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
 
-    }catch let error as NSError {
+    } catch let error as NSError {
         coordinator = nil
         // Report any error we got.
         var dict = [AnyHashable: Any]()

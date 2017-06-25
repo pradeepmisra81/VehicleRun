@@ -26,18 +26,20 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     var instantPace = 0.0
     var currentLocation:CLLocation?
     
-    var timeInterval = 0.0
+    var currentTimeInterval = 0.0
+    var nextTimeInterval = 0.0
+    
     lazy var locationManager: CLLocationManager = {
         var _locationManager = CLLocationManager()
         _locationManager.delegate = self
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest
         _locationManager.activityType = .fitness
-        
         // Movement threshold for new events
         _locationManager.distanceFilter = 10.0
         return _locationManager
     }()
     
+    lazy var customLocations = [CustomLocation]()
     lazy var locations = [CLLocation]()
     lazy var timer = Timer()
     var mapOverlay: MKTileOverlay!
@@ -141,12 +143,13 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         mapView2.isHidden = false
         
         seconds = 0.0
-        timeInterval = 30.0
+        currentTimeInterval = 0.0
         distance = 0.0
         instantPace = 0.0
         vehicleCurrentSpeed = 0.0
         vehiclePastSpeed = 0.0
         locations.removeAll(keepingCapacity: false)
+        customLocations.removeAll(keepingCapacity: false)
         
         
         timeLabel.text = "Time: 0"
@@ -154,7 +157,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         paceLabel.text = "Current speed: 0 km/h"//"Pace:
         locationLabel.text = "Current lat:   long: "
         
-        timer = Timer.scheduledTimer(timeInterval: timeInterval,
+        timer = Timer.scheduledTimer(timeInterval: currentTimeInterval,
                                      target: self,
                                      selector: #selector(eachInterval(_:)),
                                      userInfo: nil,
@@ -194,9 +197,10 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     /**
      * @description: Function is called on each time interval which is based on the vehicle current speed
      */
-    func eachInterval(_ timer1: Timer) {
+    func eachInterval(_ timer: Timer) {
         
-        seconds += timeInterval
+        seconds += currentTimeInterval
+        
         let (h,m,s) = secondsToHoursMinutesSeconds(seconds: Int(seconds))
         let secondsQuantity = HKQuantity(unit: HKUnit.second(), doubleValue: Double(s))
         let minutesQuantity = HKQuantity(unit: HKUnit.minute(), doubleValue: Double(m))
@@ -212,33 +216,35 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         
         vehicleCurrentSpeed = (instantPace*3.6*10).rounded()/10
         
+        vehiclePastSpeed = vehicleCurrentSpeed
+        
+        // calculate the time interval for the location update
+        nextTimeInterval = calculateNextTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, currentTimeInterval: currentTimeInterval)
+        
         var currentlocationMessage = "Current "
         if let loc = self.currentLocation {
             let lat = loc.coordinate.latitude
             let long = loc.coordinate.longitude
             currentlocationMessage = currentlocationMessage + "lat: \(String(describing: lat))   long:\(String(describing: long))"
+            
+            let customLocation = CustomLocation(timestamp: (self.currentLocation?.timestamp)!, latitude:lat, longitude: long, currenttimeinterval: currentTimeInterval, nexttimeinterval: nextTimeInterval)
+            
+            customLocations.append(customLocation)
         }
-        
         locationLabel.text = currentlocationMessage
         
         
         
-        vehiclePastSpeed = vehicleCurrentSpeed
-        
-        let oldTimeInterval = timeInterval
-        
-        // calculate the time interval for the location update
-        timeInterval = calulateTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, pastTimeInterval: oldTimeInterval)
-        
-        
-        if oldTimeInterval != timeInterval {
+        if currentTimeInterval != nextTimeInterval {
             timer.invalidate()
-            timer = Timer.scheduledTimer(timeInterval: timeInterval,
+            Timer.scheduledTimer(timeInterval: nextTimeInterval,
                                          target: self,
                                          selector: #selector(eachInterval(_:)),
                                          userInfo: nil,
                                          repeats: true)
         }
+        
+        currentTimeInterval = nextTimeInterval
         
     }
 
@@ -246,46 +252,47 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
      * @description: Function is called to calculate the time interval which is based on the current speed 
      * and past speed of the vehicle
      */
-    func calulateTimeInterval(_ currentSpeed:Double, pastSpeed:Double, pastTimeInterval:Double) -> Double {
+    func calculateNextTimeInterval(_ currentSpeed:Double, pastSpeed:Double, currentTimeInterval:Double) -> Double {
         
         let speedDiff = abs(currentSpeed - pastSpeed)
+        var nextTimeInterval = currentTimeInterval
         
         // Implemented logic for location update based on the vehicle speed
         if (currentSpeed >= 80) && (speedDiff <= 20){
-            timeInterval = 30
+            nextTimeInterval = 30
         }
         else if (currentSpeed >= 60) && (currentSpeed < 80) && (speedDiff <= 20) {
-            timeInterval = 60
+            nextTimeInterval = 60
         }
         else if (currentSpeed >= 30) && (currentSpeed < 60) && (speedDiff <= 20) {
-            timeInterval = 120
+            nextTimeInterval = 120
         }
         else if (currentSpeed < 30) && (speedDiff <= 20){
-            timeInterval = 300
+            nextTimeInterval = 300
         }
-        else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed > pastSpeed) {
-            timeInterval = 30
+        else if speedDiff > 20  && (currentTimeInterval == 30) && (currentSpeed > pastSpeed) {
+            nextTimeInterval = 30
         }
-        else if speedDiff > 20  && pastTimeInterval == 60 && (currentSpeed > pastSpeed) {
-            timeInterval = 30
+        else if speedDiff > 20  && currentTimeInterval == 60 && (currentSpeed > pastSpeed) {
+            nextTimeInterval = 30
         }
-        else if speedDiff > 20  && pastTimeInterval == 120 && (currentSpeed > pastSpeed) {
-            timeInterval = 60
+        else if speedDiff > 20  && currentTimeInterval == 120 && (currentSpeed > pastSpeed) {
+            nextTimeInterval = 60
         }
-        else if speedDiff > 20  && pastTimeInterval == 300 && (currentSpeed > pastSpeed) {
-            timeInterval = 120
+        else if speedDiff > 20  && currentTimeInterval == 300 && (currentSpeed > pastSpeed) {
+            nextTimeInterval = 120
         }
-        else if speedDiff > 20  && (pastTimeInterval == 30) && (currentSpeed < pastSpeed) {
-            timeInterval = 60
+        else if speedDiff > 20  && (currentTimeInterval == 30) && (currentSpeed < pastSpeed) {
+            nextTimeInterval = 60
         }
-        else if speedDiff > 20  && pastTimeInterval == 60 && (currentSpeed < pastSpeed){
-            timeInterval = 120
+        else if speedDiff > 20  && currentTimeInterval == 60 && (currentSpeed < pastSpeed){
+            nextTimeInterval = 120
         }
-        else if speedDiff > 20  && pastTimeInterval == 120 && (currentSpeed < pastSpeed){
-            timeInterval = 300
+        else if speedDiff > 20  && currentTimeInterval == 120 && (currentSpeed < pastSpeed){
+            nextTimeInterval = 300
         }
         
-        return timeInterval
+        return nextTimeInterval
     }
     
     
@@ -294,7 +301,6 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     }
     
     func startLocationUpdates() {
-        
         
         locationManager.startUpdatingLocation()
     }
@@ -311,6 +317,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         savedRun.timestamp = NSDate() as Date
         
         // Save Location
+        /*
         var savedLocations = [Location]()
         for location in locations {
             let savedLocation = NSEntityDescription.insertNewObject(forEntityName: "Location",
@@ -318,6 +325,19 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
             savedLocation.timestamp = location.timestamp
             savedLocation.latitude = NSNumber(value: location.coordinate.latitude)
             savedLocation.longitude = NSNumber(value: location.coordinate.longitude)
+            savedLocations.append(savedLocation)
+        }
+        */
+        
+        var savedLocations = [Location]()
+        for customLocation in customLocations {
+            let savedLocation = NSEntityDescription.insertNewObject(forEntityName: "Location",
+                                                                    into: managedObjectContext!) as! Location
+            savedLocation.timestamp = customLocation.timestamp
+            savedLocation.latitude = NSNumber(value: customLocation.latitude)
+            savedLocation.longitude = NSNumber(value: customLocation.longitude)
+            savedLocation.currenttimeinterval = NSNumber(value: customLocation.currenttimeinterval)
+            savedLocation.nexttimeinterval = NSNumber(value: customLocation.nexttimeinterval)
             savedLocations.append(savedLocation)
         }
         
@@ -340,6 +360,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         for location in locations {
             
+            //print("locations.count111:\(locations.count)")
             let howRecent = location.timestamp.timeIntervalSinceNow
             //print("howRecent:\(howRecent)")
             
@@ -362,13 +383,11 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
                     mapView2.add(MKPolyline(coordinates: &coords, count: coords.count))
                     
                 }
-                
+                //print("locations.count222:\(locations.count)")
                 //save location
                 self.currentLocation = location
                 self.locations.append(location)
-                
-                
-                
+            
             }
         }
         

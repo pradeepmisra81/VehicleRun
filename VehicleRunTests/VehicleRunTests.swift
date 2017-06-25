@@ -31,18 +31,18 @@ class VehicleRunTests: XCTestCase {
     
     // This is a functional test case for calculating the time interval for location update, based on the
     // current and past speed of the Vehicle
-    func testcalulateTimeInterval() {
+    func testcalulatedTimeInterval() {
         
-        let currentSpeedArray:[Double] =         [60.0,  90.0, 9.0,  19.0,  29.0,  39.0,   49.0,  59.0, 69.0, 79.0, 89.0, 99.0]
-        let pastSpeedArray:[Double] =            [40.0,  80.0, 90.0, 9.0,   19.0,  29.0,   39.0,  9.0,  89.0, 39.0, 69.0, 59.0]
-        let pastTimeIntervalArray:[Double] =     [120.0, 30.0, 30.0, 300.0, 300.0, 300.0, 120.0, 300.0, 30.0, 120.0, 60.0, 120.0]
-        let expectedTimeIntervalArray:[Double] = [60.0,  30.0, 60.0, 300.0, 300.0, 120.0, 120.0, 120.0, 60.0, 60.0, 30.0, 60.0]
+        let currentSpeedArray:[Double]              =   [60.0,  90.0, 9.0,  19.0,  29.0,  39.0,   49.0,  59.0, 69.0, 79.0, 89.0, 99.0]
+        let pastSpeedArray:[Double]                 =   [40.0,  80.0, 90.0, 9.0,   19.0,  29.0,   39.0,  9.0,  89.0, 39.0, 69.0, 59.0]
+        let currentTimeIntervalArray:[Double]       =   [120.0, 30.0, 30.0, 300.0, 300.0, 300.0, 120.0, 300.0, 30.0, 120.0, 60.0, 120.0]
+        let expectedNextTimeIntervalArray:[Double]  =   [60.0,  30.0, 60.0, 300.0, 300.0, 120.0, 120.0, 120.0, 60.0, 60.0, 30.0, 60.0]
         
         for i in 0..<currentSpeedArray.count {
             
-        let calulatedTimeInterval = viewController.calulateTimeInterval(Double(currentSpeedArray[i]), pastSpeed: pastSpeedArray[i], pastTimeInterval: pastTimeIntervalArray[i])
-        
-        XCTAssertTrue((calulatedTimeInterval == expectedTimeIntervalArray[i]), "Time interval calculation Test Case for current speed:\(currentSpeedArray[i]): Pass")
+            let calulatedNextTimeInterval = viewController.calculateNextTimeInterval(Double(currentSpeedArray[i]), pastSpeed: pastSpeedArray[i], currentTimeInterval: currentTimeIntervalArray[i])
+            
+            XCTAssertTrue((calulatedNextTimeInterval == expectedNextTimeIntervalArray[i]), "Time interval calculation Test Case for current speed:\(currentSpeedArray[i]): Pass")
         }
         
     }

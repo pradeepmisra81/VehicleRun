@@ -14,6 +14,8 @@ class Location: NSManagedObject {
     @NSManaged var timestamp: Date
     @NSManaged var latitude: NSNumber
     @NSManaged var longitude: NSNumber
+    @NSManaged var currenttimeinterval: NSNumber
+    @NSManaged var nexttimeinterval: NSNumber
     @NSManaged var run: NSManagedObject
 
 }

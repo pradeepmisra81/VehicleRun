@@ -42,6 +42,9 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
         distanceLabel.text = "Distance: " + distanceQuantity.description
         
         paceLabel.text = "Mean speed: "+String((run.distance.doubleValue/run.duration.doubleValue*3.6*10).rounded()/10)+" km/h"
+        
+        
+        //print(Location())
                 
         loadMap()
     }
@@ -94,11 +97,21 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
     
     func polyline() -> MKPolyline {
         var coords = [CLLocationCoordinate2D]()
-        
+        /*
         let locations = run.locations.array as! [Location]
         for location in locations {
             coords.append(CLLocationCoordinate2D(latitude: location.latitude.doubleValue,
                                                  longitude: location.longitude.doubleValue))
+        }
+        */
+        
+        let customLocations = run.locations.array as! [Location]
+        for customLocation in customLocations {
+            coords.append(CLLocationCoordinate2D(latitude: customLocation.latitude.doubleValue,
+                                                 longitude: customLocation.longitude.doubleValue))
+            
+            print("Captured location saved in sqlite:")
+            print("Time:\(customLocation.timestamp), Latitude: \(customLocation.latitude.doubleValue), Longitude: \(customLocation.longitude.doubleValue), Current time interval(in seconds):\(customLocation.currenttimeinterval.doubleValue), Next time interval(in seconds) :\(customLocation.nexttimeinterval.doubleValue)")
         }
         
         return MKPolyline(coordinates: &coords, count: run.locations.count)
