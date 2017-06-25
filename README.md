@@ -79,7 +79,10 @@ currentTimeInterval = nextTimeInterval
 * @Parameter: pastSpeed of type Double
 * @Parameter: currentTimeInterval of type Double
 * @Return nextTimeInterval of type Double
+*
 */
+
+
 
 func calculateNextTimeInterval(_ currentSpeed:Double, pastSpeed:Double, currentTimeInterval:Double) -> Double {
 
@@ -87,41 +90,74 @@ let speedDiff = abs(currentSpeed - pastSpeed)
 var nextTimeInterval = currentTimeInterval
 
 // Implemented logic for location update based on the vehicle speed
-if (currentSpeed >= 80) && (speedDiff <= 20){
+if (currentSpeed >= 80) && (speedDiff <= 20) {
+
 nextTimeInterval = 30
-}
-else if (currentSpeed >= 60) && (currentSpeed < 80) && (speedDiff <= 20) {
-nextTimeInterval = 60
-}
-else if (currentSpeed >= 30) && (currentSpeed < 60) && (speedDiff <= 20) {
-nextTimeInterval = 120
-}
-else if (currentSpeed < 30) && (speedDiff <= 20){
-nextTimeInterval = 300
-}
-else if speedDiff > 20  && (currentTimeInterval == 30) && (currentSpeed > pastSpeed) {
-nextTimeInterval = 30
-}
-else if speedDiff > 20  && currentTimeInterval == 60 && (currentSpeed > pastSpeed) {
-nextTimeInterval = 30
-}
-else if speedDiff > 20  && currentTimeInterval == 120 && (currentSpeed > pastSpeed) {
-nextTimeInterval = 60
-}
-else if speedDiff > 20  && currentTimeInterval == 300 && (currentSpeed > pastSpeed) {
-nextTimeInterval = 120
-}
-else if speedDiff > 20  && (currentTimeInterval == 30) && (currentSpeed < pastSpeed) {
-nextTimeInterval = 60
-}
-else if speedDiff > 20  && currentTimeInterval == 60 && (currentSpeed < pastSpeed){
-nextTimeInterval = 120
-}
-else if speedDiff > 20  && currentTimeInterval == 120 && (currentSpeed < pastSpeed){
-nextTimeInterval = 300
 }
 
+else if (currentSpeed >= 60) && (currentSpeed < 80) && (speedDiff <= 20) {
+
+nextTimeInterval = 60
+
+}
+
+else if (currentSpeed >= 30) && (currentSpeed < 60) && (speedDiff <= 20) {
+
+nextTimeInterval = 120
+
+}
+
+else if (currentSpeed < 30) && (speedDiff <= 20){
+
+nextTimeInterval = 300
+
+}
+
+else if speedDiff > 20  && (currentTimeInterval == 30) && (currentSpeed > pastSpeed) {
+
+nextTimeInterval = 30
+
+}
+
+else if speedDiff > 20  && currentTimeInterval == 60 && (currentSpeed > pastSpeed) {
+
+nextTimeInterval = 30
+
+}
+
+else if speedDiff > 20  && currentTimeInterval == 120 && (currentSpeed > pastSpeed) {
+
+nextTimeInterval = 60
+
+}
+
+else if speedDiff > 20  && currentTimeInterval == 300 && (currentSpeed > pastSpeed) {
+
+nextTimeInterval = 120
+
+}
+
+else if speedDiff > 20  && (currentTimeInterval == 30) && (currentSpeed < pastSpeed) {
+
+nextTimeInterval = 60
+
+}
+
+else if speedDiff > 20  && currentTimeInterval == 60 && (currentSpeed < pastSpeed){
+
+nextTimeInterval = 120
+
+}
+
+else if speedDiff > 20  && currentTimeInterval == 120 && (currentSpeed < pastSpeed){
+
+nextTimeInterval = 300
+
+}
+
+
 return nextTimeInterval
+
 }
 
 
