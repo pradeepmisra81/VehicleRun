@@ -29,7 +29,7 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
         
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "dd/MM/yy HH:mm:ss"
         dateLabel.text = dateFormatter.string(from: run.timestamp)
         
         let (h,m,s) = secondsToHoursMinutesSeconds(seconds: Int(run.duration.doubleValue))
@@ -42,9 +42,6 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
         distanceLabel.text = "Distance: " + distanceQuantity.description
         
         paceLabel.text = "Mean speed: "+String((run.distance.doubleValue/run.duration.doubleValue*3.6*10).rounded()/10)+" km/h"
-        
-        
-        //print(Location())
                 
         loadMap()
     }
@@ -97,21 +94,16 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
     
     func polyline() -> MKPolyline {
         var coords = [CLLocationCoordinate2D]()
-        /*
-        let locations = run.locations.array as! [Location]
-        for location in locations {
-            coords.append(CLLocationCoordinate2D(latitude: location.latitude.doubleValue,
-                                                 longitude: location.longitude.doubleValue))
-        }
-        */
-        
         let customLocations = run.locations.array as! [Location]
         for customLocation in customLocations {
             coords.append(CLLocationCoordinate2D(latitude: customLocation.latitude.doubleValue,
                                                  longitude: customLocation.longitude.doubleValue))
             
             print("Captured location saved in sqlite:")
-            print("Time:\(customLocation.timestamp), Latitude: \(customLocation.latitude.doubleValue), Longitude: \(customLocation.longitude.doubleValue), Current time interval(in seconds):\(customLocation.currenttimeinterval.doubleValue), Next time interval(in seconds) :\(customLocation.nexttimeinterval.doubleValue)")
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yy HH:mm:ss"
+            print("Time:\(dateFormatter.string(from: customLocation.timestamp)), Latitude: \(customLocation.latitude.doubleValue), Longitude: \(customLocation.longitude.doubleValue), Current time interval(in seconds):\(customLocation.currenttimeinterval.doubleValue), Next time interval(in seconds) :\(customLocation.nexttimeinterval.doubleValue)")
         }
         
         return MKPolyline(coordinates: &coords, count: run.locations.count)

@@ -221,8 +221,9 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         // calculate the time interval for the location update
         nextTimeInterval = calculateNextTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, currentTimeInterval: currentTimeInterval)
         
-        var currentlocationMessage = "Current "
+        
         if let loc = self.currentLocation {
+            var currentlocationMessage = "Location: "
             let lat = loc.coordinate.latitude
             let long = loc.coordinate.longitude
             currentlocationMessage = currentlocationMessage + "lat: \(String(describing: lat))   long:\(String(describing: long))"
@@ -230,10 +231,8 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
             let customLocation = CustomLocation(timestamp: (self.currentLocation?.timestamp)!, latitude:lat, longitude: long, currenttimeinterval: currentTimeInterval, nexttimeinterval: nextTimeInterval)
             
             customLocations.append(customLocation)
+            locationLabel.text = currentlocationMessage
         }
-        locationLabel.text = currentlocationMessage
-        
-        
         
         if currentTimeInterval != nextTimeInterval {
             timer.invalidate()
