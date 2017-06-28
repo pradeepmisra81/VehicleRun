@@ -76,6 +76,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49074CAE1F03E41F005E4A8B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				49D44D3A1EF260B0005998AC /* MulticolorPolylineSegment.swift */,
+				49D44D3B1EF260B0005998AC /* VehicleRunViewController.swift */,
+				49D44D391EF260B0005998AC /* HomeViewController.swift */,
+				49D44D381EF260B0005998AC /* DetailViewController.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		49074CAF1F03E434005E4A8B /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Interactor;
+			sourceTree = "<group>";
+		};
+		49074CB01F03E45A005E4A8B /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Presenter;
+			sourceTree = "<group>";
+		};
+		49074CB11F03E471005E4A8B /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				49D44D2E1EF25FCB005998AC /* Model */,
+			);
+			name = Entity;
+			sourceTree = "<group>";
+		};
+		49074CB21F03E47E005E4A8B /* Router */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Router;
+			sourceTree = "<group>";
+		};
 		49D44CFF1EF25FA6005998AC = {
 			isa = PBXGroup;
 			children = (
@@ -98,15 +138,15 @@
 		49D44D0A1EF25FA6005998AC /* VehicleRun */ = {
 			isa = PBXGroup;
 			children = (
-				49D44D381EF260B0005998AC /* DetailViewController.swift */,
-				49D44D391EF260B0005998AC /* HomeViewController.swift */,
-				49D44D3A1EF260B0005998AC /* MulticolorPolylineSegment.swift */,
-				49D44D3B1EF260B0005998AC /* VehicleRunViewController.swift */,
+				49074CB21F03E47E005E4A8B /* Router */,
+				49074CB11F03E471005E4A8B /* Entity */,
+				49074CB01F03E45A005E4A8B /* Presenter */,
+				49074CAF1F03E434005E4A8B /* Interactor */,
+				49074CAE1F03E41F005E4A8B /* View */,
 				49D44D0B1EF25FA6005998AC /* AppDelegate.swift */,
 				493F83221EF64D38008C86C8 /* AppConstants.swift */,
 				49D44D321EF2608E005998AC /* Images.xcassets */,
 				49D44D2F1EF26073005998AC /* LaunchScreen.xib */,
-				49D44D2E1EF25FCB005998AC /* Model */,
 				49D44D0F1EF25FA6005998AC /* Main.storyboard */,
 				49D44D1A1EF25FA6005998AC /* Info.plist */,
 				49D44D121EF25FA6005998AC /* VehicleRun.xcdatamodeld */,
