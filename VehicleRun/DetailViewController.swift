@@ -29,7 +29,7 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
         
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yy HH:mm:ss"
+        dateFormatter.dateFormat = AppConstants.DateFormat
         dateLabel.text = dateFormatter.string(from: run.timestamp)
         
         let (h,m,s) = secondsToHoursMinutesSeconds(seconds: Int(run.duration.doubleValue))
@@ -102,7 +102,7 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
             print("Captured location saved in sqlite:")
             
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd/MM/yy HH:mm:ss"
+            dateFormatter.dateFormat = AppConstants.DateFormat
             print("Time:\(dateFormatter.string(from: customLocation.timestamp)), Latitude: \(customLocation.latitude.doubleValue), Longitude: \(customLocation.longitude.doubleValue), Current time interval(in seconds):\(customLocation.currenttimeinterval.doubleValue), Next time interval(in seconds) :\(customLocation.nexttimeinterval.doubleValue)")
         }
         

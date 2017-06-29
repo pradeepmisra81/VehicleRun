@@ -15,4 +15,5 @@ struct AppConstants {
     static let KMPH = "km/h"
     static let Run = "Run"
     static let Location = "Location"
+    static let DateFormat = "dd/MM/yy HH:mm:ss"
 }
