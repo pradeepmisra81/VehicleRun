@@ -26,12 +26,16 @@ func eachInterval(_ timer: Timer) {
 seconds += currentTimeInterval
 
 let (h,m,s) = secondsToHoursMinutesSeconds(seconds: Int(seconds))
+
 let secondsQuantity = HKQuantity(unit: HKUnit.second(), doubleValue: Double(s))
+
 let minutesQuantity = HKQuantity(unit: HKUnit.minute(), doubleValue: Double(m))
+
 let hoursQuantity = HKQuantity(unit: HKUnit.hour(), doubleValue: Double(h))
 
 
 timeLabel.text = "Time: "+hoursQuantity.description+" "+minutesQuantity.description+" "+secondsQuantity.description
+
 let distanceQuantity = HKQuantity(unit: HKUnit.meter(), doubleValue: distance)
 
 distanceLabel.text = "Distance: " + distanceQuantity.description
@@ -43,34 +47,44 @@ vehicleCurrentSpeed = (instantPace*3.6*10).rounded()/10
 vehiclePastSpeed = vehicleCurrentSpeed
 
 // calculate the time interval for the location update
+
 nextTimeInterval = calculateNextTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, currentTimeInterval: currentTimeInterval)
 
-var currentlocationMessage = "Current "
-if let loc = self.currentLocation {
+
+guard let loc = self.currentLocation else { return }
+
+var currentlocationMessage = "Location: "
+
 let lat = loc.coordinate.latitude
+
 let long = loc.coordinate.longitude
+
 currentlocationMessage = currentlocationMessage + "lat: \(String(describing: lat))   long:\(String(describing: long))"
 
-let customLocation = CustomLocation(timestamp: (self.currentLocation?.timestamp)!, latitude:lat, longitude: long, currenttimeinterval: currentTimeInterval, nexttimeinterval: nextTimeInterval)
+guard let timeStamp = self.currentLocation?.timestamp else { return }
+
+let customLocation = CustomLocation(timestamp: timeStamp, latitude:lat, longitude: long, currenttimeinterval: currentTimeInterval, nexttimeinterval: nextTimeInterval)
 
 customLocations.append(customLocation)
-}
+
 locationLabel.text = currentlocationMessage
 
-
-
 if currentTimeInterval != nextTimeInterval {
+
 timer.invalidate()
+
 Timer.scheduledTimer(timeInterval: nextTimeInterval,
 target: self,
 selector: #selector(eachInterval(_:)),
 userInfo: nil,
 repeats: true)
+
 }
 
 currentTimeInterval = nextTimeInterval
 
 }
+
 
 /**
 * @description: Function is called to calculate the next time interval which is based on the current
