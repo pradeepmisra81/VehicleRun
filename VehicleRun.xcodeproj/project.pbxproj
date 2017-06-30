@@ -9,20 +9,23 @@
 /* Begin PBXBuildFile section */
 		493BE2861EF8E974002143C2 /* CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BE2851EF8E974002143C2 /* CoreDataHelpers.swift */; };
 		493F83231EF64D38008C86C8 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493F83221EF64D38008C86C8 /* AppConstants.swift */; };
+		494F3CA41F063B4800172278 /* CustomLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F3CA11F063B4800172278 /* CustomLocation.swift */; };
+		494F3CA51F063B4800172278 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F3CA21F063B4800172278 /* Location.swift */; };
+		494F3CA61F063B4800172278 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F3CA31F063B4800172278 /* Run.swift */; };
+		494F3CAB1F063BA400172278 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F3CA71F063BA400172278 /* DetailViewController.swift */; };
+		494F3CAC1F063BA400172278 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F3CA81F063BA400172278 /* HomeViewController.swift */; };
+		494F3CAD1F063BA400172278 /* MulticolorPolylineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F3CA91F063BA400172278 /* MulticolorPolylineSegment.swift */; };
+		494F3CAE1F063BA400172278 /* VehicleRunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F3CAA1F063BA400172278 /* VehicleRunViewController.swift */; };
+		494F3CB01F063BFC00172278 /* VehicleRunInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F3CAF1F063BFC00172278 /* VehicleRunInteractor.swift */; };
+		494F3CB21F063CAB00172278 /* VehicleRunPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F3CB11F063CAB00172278 /* VehicleRunPresenter.swift */; };
+		494F3CB41F063D1A00172278 /* VehicleRunRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494F3CB31F063D1A00172278 /* VehicleRunRouter.swift */; };
 		49D44D0C1EF25FA6005998AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D0B1EF25FA6005998AC /* AppDelegate.swift */; };
 		49D44D111EF25FA6005998AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49D44D0F1EF25FA6005998AC /* Main.storyboard */; };
 		49D44D141EF25FA6005998AC /* VehicleRun.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D121EF25FA6005998AC /* VehicleRun.xcdatamodeld */; };
 		49D44D241EF25FA6005998AC /* VehicleRunTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D231EF25FA6005998AC /* VehicleRunTests.swift */; };
 		49D44D311EF26073005998AC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49D44D2F1EF26073005998AC /* LaunchScreen.xib */; };
 		49D44D331EF2608E005998AC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49D44D321EF2608E005998AC /* Images.xcassets */; };
-		49D44D361EF260A2005998AC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D341EF260A2005998AC /* Location.swift */; };
-		49D44D371EF260A2005998AC /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D351EF260A2005998AC /* Run.swift */; };
-		49D44D3C1EF260B0005998AC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D381EF260B0005998AC /* DetailViewController.swift */; };
-		49D44D3D1EF260B0005998AC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D391EF260B0005998AC /* HomeViewController.swift */; };
-		49D44D3E1EF260B0005998AC /* MulticolorPolylineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D3A1EF260B0005998AC /* MulticolorPolylineSegment.swift */; };
-		49D44D3F1EF260B0005998AC /* VehicleRunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D3B1EF260B0005998AC /* VehicleRunViewController.swift */; };
 		49D44D411EF29EA8005998AC /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 49D44D401EF29EA8005998AC /* README.md */; };
-		49EEFE131F00152300A06D41 /* CustomLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EEFE121F00152300A06D41 /* CustomLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +41,16 @@
 /* Begin PBXFileReference section */
 		493BE2851EF8E974002143C2 /* CoreDataHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHelpers.swift; sourceTree = "<group>"; };
 		493F83221EF64D38008C86C8 /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		494F3CA11F063B4800172278 /* CustomLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomLocation.swift; path = VIPER/Entity/CustomLocation.swift; sourceTree = "<group>"; };
+		494F3CA21F063B4800172278 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = VIPER/Entity/Location.swift; sourceTree = "<group>"; };
+		494F3CA31F063B4800172278 /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Run.swift; path = VIPER/Entity/Run.swift; sourceTree = "<group>"; };
+		494F3CA71F063BA400172278 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailViewController.swift; path = VIPER/View/DetailViewController.swift; sourceTree = "<group>"; };
+		494F3CA81F063BA400172278 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = VIPER/View/HomeViewController.swift; sourceTree = "<group>"; };
+		494F3CA91F063BA400172278 /* MulticolorPolylineSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MulticolorPolylineSegment.swift; path = VIPER/View/MulticolorPolylineSegment.swift; sourceTree = "<group>"; };
+		494F3CAA1F063BA400172278 /* VehicleRunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleRunViewController.swift; path = VIPER/View/VehicleRunViewController.swift; sourceTree = "<group>"; };
+		494F3CAF1F063BFC00172278 /* VehicleRunInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleRunInteractor.swift; path = VIPER/Interactor/VehicleRunInteractor.swift; sourceTree = "<group>"; };
+		494F3CB11F063CAB00172278 /* VehicleRunPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleRunPresenter.swift; path = VIPER/Presenter/VehicleRunPresenter.swift; sourceTree = "<group>"; };
+		494F3CB31F063D1A00172278 /* VehicleRunRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleRunRouter.swift; path = VIPER/Router/VehicleRunRouter.swift; sourceTree = "<group>"; };
 		49D44D081EF25FA6005998AC /* VehicleRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VehicleRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49D44D0B1EF25FA6005998AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49D44D101EF25FA6005998AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -48,14 +61,7 @@
 		49D44D251EF25FA6005998AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49D44D301EF26073005998AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		49D44D321EF2608E005998AC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		49D44D341EF260A2005998AC /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		49D44D351EF260A2005998AC /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
-		49D44D381EF260B0005998AC /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		49D44D391EF260B0005998AC /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		49D44D3A1EF260B0005998AC /* MulticolorPolylineSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MulticolorPolylineSegment.swift; sourceTree = "<group>"; };
-		49D44D3B1EF260B0005998AC /* VehicleRunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleRunViewController.swift; sourceTree = "<group>"; };
 		49D44D401EF29EA8005998AC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		49EEFE121F00152300A06D41 /* CustomLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +85,10 @@
 		49074CAE1F03E41F005E4A8B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				49D44D3A1EF260B0005998AC /* MulticolorPolylineSegment.swift */,
-				49D44D3B1EF260B0005998AC /* VehicleRunViewController.swift */,
-				49D44D391EF260B0005998AC /* HomeViewController.swift */,
-				49D44D381EF260B0005998AC /* DetailViewController.swift */,
+				494F3CA71F063BA400172278 /* DetailViewController.swift */,
+				494F3CA81F063BA400172278 /* HomeViewController.swift */,
+				494F3CA91F063BA400172278 /* MulticolorPolylineSegment.swift */,
+				494F3CAA1F063BA400172278 /* VehicleRunViewController.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -90,6 +96,7 @@
 		49074CAF1F03E434005E4A8B /* Interactor */ = {
 			isa = PBXGroup;
 			children = (
+				494F3CAF1F063BFC00172278 /* VehicleRunInteractor.swift */,
 			);
 			name = Interactor;
 			sourceTree = "<group>";
@@ -97,6 +104,7 @@
 		49074CB01F03E45A005E4A8B /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				494F3CB11F063CAB00172278 /* VehicleRunPresenter.swift */,
 			);
 			name = Presenter;
 			sourceTree = "<group>";
@@ -104,9 +112,9 @@
 		49074CB11F03E471005E4A8B /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				49D44D341EF260A2005998AC /* Location.swift */,
-				49D44D351EF260A2005998AC /* Run.swift */,
-				49EEFE121F00152300A06D41 /* CustomLocation.swift */,
+				494F3CA11F063B4800172278 /* CustomLocation.swift */,
+				494F3CA21F063B4800172278 /* Location.swift */,
+				494F3CA31F063B4800172278 /* Run.swift */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -114,8 +122,49 @@
 		49074CB21F03E47E005E4A8B /* Router */ = {
 			isa = PBXGroup;
 			children = (
+				494F3CB31F063D1A00172278 /* VehicleRunRouter.swift */,
 			);
 			name = Router;
+			sourceTree = "<group>";
+		};
+		494F3CB51F063DAC00172278 /* VIPER */ = {
+			isa = PBXGroup;
+			children = (
+				49074CB21F03E47E005E4A8B /* Router */,
+				49074CB11F03E471005E4A8B /* Entity */,
+				49074CB01F03E45A005E4A8B /* Presenter */,
+				49074CAF1F03E434005E4A8B /* Interactor */,
+				49074CAE1F03E41F005E4A8B /* View */,
+			);
+			name = VIPER;
+			sourceTree = "<group>";
+		};
+		494F3CB61F063DD800172278 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				49D44D321EF2608E005998AC /* Images.xcassets */,
+				49D44D2F1EF26073005998AC /* LaunchScreen.xib */,
+				49D44D0F1EF25FA6005998AC /* Main.storyboard */,
+				49D44D1A1EF25FA6005998AC /* Info.plist */,
+				49D44D121EF25FA6005998AC /* VehicleRun.xcdatamodeld */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		494F3CB71F063DF500172278 /* AppConstants */ = {
+			isa = PBXGroup;
+			children = (
+				493F83221EF64D38008C86C8 /* AppConstants.swift */,
+			);
+			name = AppConstants;
+			sourceTree = "<group>";
+		};
+		494F3CB81F063E1400172278 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				49D44D0B1EF25FA6005998AC /* AppDelegate.swift */,
+			);
+			name = AppDelegate;
 			sourceTree = "<group>";
 		};
 		49D44CFF1EF25FA6005998AC = {
@@ -140,18 +189,10 @@
 		49D44D0A1EF25FA6005998AC /* VehicleRun */ = {
 			isa = PBXGroup;
 			children = (
-				49074CB21F03E47E005E4A8B /* Router */,
-				49074CB11F03E471005E4A8B /* Entity */,
-				49074CB01F03E45A005E4A8B /* Presenter */,
-				49074CAF1F03E434005E4A8B /* Interactor */,
-				49074CAE1F03E41F005E4A8B /* View */,
-				49D44D0B1EF25FA6005998AC /* AppDelegate.swift */,
-				493F83221EF64D38008C86C8 /* AppConstants.swift */,
-				49D44D321EF2608E005998AC /* Images.xcassets */,
-				49D44D2F1EF26073005998AC /* LaunchScreen.xib */,
-				49D44D0F1EF25FA6005998AC /* Main.storyboard */,
-				49D44D1A1EF25FA6005998AC /* Info.plist */,
-				49D44D121EF25FA6005998AC /* VehicleRun.xcdatamodeld */,
+				494F3CB81F063E1400172278 /* AppDelegate */,
+				494F3CB71F063DF500172278 /* AppConstants */,
+				494F3CB51F063DAC00172278 /* VIPER */,
+				494F3CB61F063DD800172278 /* Resources */,
 			);
 			path = VehicleRun;
 			sourceTree = "<group>";
@@ -269,17 +310,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49EEFE131F00152300A06D41 /* CustomLocation.swift in Sources */,
 				49D44D141EF25FA6005998AC /* VehicleRun.xcdatamodeld in Sources */,
-				49D44D371EF260A2005998AC /* Run.swift in Sources */,
-				49D44D3E1EF260B0005998AC /* MulticolorPolylineSegment.swift in Sources */,
-				49D44D3C1EF260B0005998AC /* DetailViewController.swift in Sources */,
-				49D44D361EF260A2005998AC /* Location.swift in Sources */,
-				49D44D3F1EF260B0005998AC /* VehicleRunViewController.swift in Sources */,
+				494F3CB01F063BFC00172278 /* VehicleRunInteractor.swift in Sources */,
+				494F3CAD1F063BA400172278 /* MulticolorPolylineSegment.swift in Sources */,
+				494F3CB21F063CAB00172278 /* VehicleRunPresenter.swift in Sources */,
+				494F3CA51F063B4800172278 /* Location.swift in Sources */,
+				494F3CB41F063D1A00172278 /* VehicleRunRouter.swift in Sources */,
 				49D44D411EF29EA8005998AC /* README.md in Sources */,
+				494F3CA41F063B4800172278 /* CustomLocation.swift in Sources */,
 				49D44D0C1EF25FA6005998AC /* AppDelegate.swift in Sources */,
-				49D44D3D1EF260B0005998AC /* HomeViewController.swift in Sources */,
+				494F3CAC1F063BA400172278 /* HomeViewController.swift in Sources */,
+				494F3CA61F063B4800172278 /* Run.swift in Sources */,
 				493F83231EF64D38008C86C8 /* AppConstants.swift in Sources */,
+				494F3CAE1F063BA400172278 /* VehicleRunViewController.swift in Sources */,
+				494F3CAB1F063BA400172278 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

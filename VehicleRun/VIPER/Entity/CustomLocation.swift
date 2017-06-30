@@ -15,11 +15,5 @@ struct CustomLocation {
     var longitude: Double?
     var currenttimeinterval: Double?
     var nexttimeinterval: Double?
-    
-//    var timestamp: Date
-//    var latitude: Double
-//    var longitude: Double
-//    var currenttimeinterval: Double
-//    var nexttimeinterval: Double
 }
 
