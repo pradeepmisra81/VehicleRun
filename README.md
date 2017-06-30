@@ -87,6 +87,7 @@ currentTimeInterval = nextTimeInterval
 func calculateNextTimeInterval(_ currentSpeed:Double, pastSpeed:Double, currentTimeInterval:Double) -> Double {
 
 let speedDiff = abs(currentSpeed - pastSpeed)
+
 var nextTimeInterval = currentTimeInterval
 
 // Implemented logic for location update based on the vehicle speed
@@ -108,7 +109,6 @@ nextTimeInterval = 300
 
 default:
 nextTimeInterval = 300
-
 }
 
 return nextTimeInterval
