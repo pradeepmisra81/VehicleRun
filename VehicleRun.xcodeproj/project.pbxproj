@@ -104,7 +104,9 @@
 		49074CB11F03E471005E4A8B /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				49D44D2E1EF25FCB005998AC /* Model */,
+				49D44D341EF260A2005998AC /* Location.swift */,
+				49D44D351EF260A2005998AC /* Run.swift */,
+				49EEFE121F00152300A06D41 /* CustomLocation.swift */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -162,16 +164,6 @@
 				493BE2851EF8E974002143C2 /* CoreDataHelpers.swift */,
 			);
 			path = VehicleRunTests;
-			sourceTree = "<group>";
-		};
-		49D44D2E1EF25FCB005998AC /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				49D44D341EF260A2005998AC /* Location.swift */,
-				49D44D351EF260A2005998AC /* Run.swift */,
-				49EEFE121F00152300A06D41 /* CustomLocation.swift */,
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
