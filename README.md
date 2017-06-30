@@ -91,7 +91,7 @@ var nextTimeInterval = currentTimeInterval
 
 // Implemented logic for location update based on the vehicle speed
 
-// Implemented logic for location update based on the vehicle speed
+
 switch (currentSpeed,speedDiff, currentTimeInterval) {
 
 case let (currentSpeed,speedDiff, _) where (currentSpeed >= 80 && speedDiff <= 20) || (currentSpeed > pastSpeed && speedDiff > 20 && currentTimeInterval == 30) || (currentSpeed > pastSpeed && speedDiff > 20 && currentTimeInterval == 60):
