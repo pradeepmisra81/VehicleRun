@@ -222,17 +222,19 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         nextTimeInterval = calculateNextTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, currentTimeInterval: currentTimeInterval)
         
         
-        if let loc = self.currentLocation {
-            var currentlocationMessage = "Location: "
-            let lat = loc.coordinate.latitude
-            let long = loc.coordinate.longitude
-            currentlocationMessage = currentlocationMessage + "lat: \(String(describing: lat))   long:\(String(describing: long))"
-            
-            let customLocation = CustomLocation(timestamp: (self.currentLocation?.timestamp)!, latitude:lat, longitude: long, currenttimeinterval: currentTimeInterval, nexttimeinterval: nextTimeInterval)
-            
-            customLocations.append(customLocation)
-            locationLabel.text = currentlocationMessage
-        }
+        guard let loc = self.currentLocation else { return }
+        
+        var currentlocationMessage = "Location: "
+        let lat = loc.coordinate.latitude
+        let long = loc.coordinate.longitude
+        currentlocationMessage = currentlocationMessage + "lat: \(String(describing: lat))   long:\(String(describing: long))"
+        
+        guard let timeStamp = self.currentLocation?.timestamp else { return }
+
+        let customLocation = CustomLocation(timestamp: timeStamp, latitude:lat, longitude: long, currenttimeinterval: currentTimeInterval, nexttimeinterval: nextTimeInterval)
+        
+        customLocations.append(customLocation)
+        locationLabel.text = currentlocationMessage
         
         if currentTimeInterval != nextTimeInterval {
             timer.invalidate()
@@ -300,27 +302,21 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         savedRun.timestamp = NSDate() as Date
         
         // Save Location
-        /*
-        var savedLocations = [Location]()
-        for location in locations {
-            let savedLocation = NSEntityDescription.insertNewObject(forEntityName: "Location",
-                                                                    into: managedObjectContext!) as! Location
-            savedLocation.timestamp = location.timestamp
-            savedLocation.latitude = NSNumber(value: location.coordinate.latitude)
-            savedLocation.longitude = NSNumber(value: location.coordinate.longitude)
-            savedLocations.append(savedLocation)
-        }
-        */
-        
         var savedLocations = [Location]()
         for customLocation in customLocations {
             let savedLocation = NSEntityDescription.insertNewObject(forEntityName: "Location",
                                                                     into: managedObjectContext!) as! Location
-            savedLocation.timestamp = customLocation.timestamp
-            savedLocation.latitude = NSNumber(value: customLocation.latitude)
-            savedLocation.longitude = NSNumber(value: customLocation.longitude)
-            savedLocation.currenttimeinterval = NSNumber(value: customLocation.currenttimeinterval)
-            savedLocation.nexttimeinterval = NSNumber(value: customLocation.nexttimeinterval)
+            guard let timeStamp = customLocation.timestamp else { return }
+            guard let latValue = customLocation.latitude else { return }
+            guard let longValue = customLocation.longitude else { return }
+            guard let currentTimeInterval = customLocation.currenttimeinterval else { return }
+            guard let nextTimeInterval = customLocation.nexttimeinterval else { return }
+            savedLocation.timestamp = timeStamp
+            savedLocation.latitude = NSNumber(value: latValue)
+            savedLocation.longitude = NSNumber(value: longValue)
+            savedLocation.currenttimeinterval = NSNumber(value: currentTimeInterval)
+            savedLocation.nexttimeinterval = NSNumber(value: nextTimeInterval)
+            
             savedLocations.append(savedLocation)
         }
         
