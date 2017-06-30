@@ -11,17 +11,9 @@ import XCTest
 @testable import VehicleRun
 
 class VehicleRunTests: XCTestCase {
-    
-    var viewController: VehicleRunViewController!
-    
+
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        let storyboard = UIStoryboard(name: "Main",
-                                      bundle: Bundle.main)
-        
-        viewController = storyboard.instantiateViewController(withIdentifier: "VehicleRunViewController") as! VehicleRunViewController
     }
     
     override func tearDown() {
@@ -38,9 +30,11 @@ class VehicleRunTests: XCTestCase {
         let currentTimeIntervalArray:[Double]       =   [120.0, 30.0, 30.0, 300.0, 300.0, 300.0, 120.0, 300.0, 30.0, 120.0, 60.0, 120.0]
         let expectedNextTimeIntervalArray:[Double]  =   [60.0,  30.0, 60.0, 300.0, 300.0, 120.0, 120.0, 120.0, 60.0, 60.0, 30.0, 60.0]
         
+        let presenter = VehicleRunPresenter()
+        
         for i in 0..<currentSpeedArray.count {
             
-            let calulatedNextTimeInterval = viewController.calculateNextTimeInterval(Double(currentSpeedArray[i]), pastSpeed: pastSpeedArray[i], currentTimeInterval: currentTimeIntervalArray[i])
+            let calulatedNextTimeInterval = presenter.calculateNextTimeInterval(Double(currentSpeedArray[i]), pastSpeed: pastSpeedArray[i], currentTimeInterval: currentTimeIntervalArray[i])
             
             XCTAssertTrue((calulatedNextTimeInterval == expectedNextTimeIntervalArray[i]), "Time interval calculation Test Case for current speed:\(currentSpeedArray[i]): Pass")
         }

@@ -219,7 +219,9 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         vehiclePastSpeed = vehicleCurrentSpeed
         
         // calculate the time interval for the location update
-        nextTimeInterval = calculateNextTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, currentTimeInterval: currentTimeInterval)
+        let presenter = VehicleRunPresenter()
+        
+        nextTimeInterval = presenter.calculateNextTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, currentTimeInterval: currentTimeInterval)
         
         
         guard let loc = self.currentLocation else { return }
@@ -257,6 +259,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
      * @Parameter: currentTimeInterval of type Double
      * @Return nextTimeInterval of type Double
      */
+    /*
     func calculateNextTimeInterval(_ currentSpeed:Double, pastSpeed:Double, currentTimeInterval:Double) -> Double {
         
         let speedDiff = abs(currentSpeed - pastSpeed)
@@ -279,7 +282,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
 
         return nextTimeInterval
     }
-    
+    */
     
     func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
         return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
