@@ -27,38 +27,49 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
     
     func configureView() {
         
+        guard let runTimeStamp = run.timestamp else { return }
+        guard let runDuration = run.duration else { return }
+        guard let runDistance = run.distance else { return }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = AppConstants.DateFormat
-        dateLabel.text = dateFormatter.string(from: run.timestamp)
+        dateLabel.text = dateFormatter.string(from: runTimeStamp)
         
-        let (h,m,s) = secondsToHoursMinutesSeconds(seconds: Int(run.duration.doubleValue))
+        let (h,m,s) = secondsToHoursMinutesSeconds(seconds: Int(runDuration.doubleValue))
         let secondsQuantity = HKQuantity(unit: HKUnit.second(), doubleValue: Double(s))
         let minutesQuantity = HKQuantity(unit: HKUnit.minute(), doubleValue: Double(m))
         let hoursQuantity = HKQuantity(unit: HKUnit.hour(), doubleValue: Double(h))
         timeLabel.text = "Time: "+hoursQuantity.description+" "+minutesQuantity.description+" "+secondsQuantity.description
         
-        let distanceQuantity = HKQuantity(unit: HKUnit.meter(), doubleValue: run.distance.doubleValue)
+        let distanceQuantity = HKQuantity(unit: HKUnit.meter(), doubleValue: runDistance.doubleValue)
         distanceLabel.text = "Distance: " + distanceQuantity.description
         
-        paceLabel.text = "Mean speed: "+String((run.distance.doubleValue/run.duration.doubleValue*3.6*10).rounded()/10)+" km/h"
+        paceLabel.text = "Mean speed: "+String((runDistance.doubleValue/runDistance.doubleValue*3.6*10).rounded()/10)+" km/h"
                 
         loadMap()
     }
+    
     func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
         return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
     }
     
     
     func mapRegion() -> MKCoordinateRegion {
-        let initialLoc = run.locations.firstObject as! Location
+        
+        guard let runLocations = run.locations else { return MKCoordinateRegion (
+            center: CLLocationCoordinate2D(latitude: 0,
+                                           longitude: 0),
+            span: MKCoordinateSpan(latitudeDelta: 0,
+                                   longitudeDelta: 0)) }
+        
+        let initialLoc = runLocations.firstObject as! Location
         
         var minLat = initialLoc.latitude.doubleValue
         var minLng = initialLoc.longitude.doubleValue
         var maxLat = minLat
         var maxLng = minLng
         
-        let locations = run.locations.array as! [Location]
+        let locations = runLocations.array as! [Location]
         
         for location in locations {
             minLat = min(minLat, location.latitude.doubleValue)
@@ -73,6 +84,8 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
             span: MKCoordinateSpan(latitudeDelta: (maxLat - minLat)*1.1,
                                    longitudeDelta: (maxLng - minLng)*1.1))
     }
+
+
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         //print("hello")
         if overlay is MKTileOverlay{
@@ -93,8 +106,15 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
     }
     
     func polyline() -> MKPolyline {
+        
         var coords = [CLLocationCoordinate2D]()
-        let customLocations = run.locations.array as! [Location]
+        
+        guard let runLocations = run.locations else {
+            return MKPolyline(coordinates: &coords, count: 0)
+        }
+        
+        let customLocations = runLocations.array as! [Location]
+    
         for customLocation in customLocations {
             coords.append(CLLocationCoordinate2D(latitude: customLocation.latitude.doubleValue,
                                                  longitude: customLocation.longitude.doubleValue))
@@ -106,10 +126,14 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
             print("Time:\(dateFormatter.string(from: customLocation.timestamp)), Latitude: \(customLocation.latitude.doubleValue), Longitude: \(customLocation.longitude.doubleValue), Current time interval(in seconds):\(customLocation.currenttimeinterval.doubleValue), Next time interval(in seconds) :\(customLocation.nexttimeinterval.doubleValue)")
         }
         
-        return MKPolyline(coordinates: &coords, count: run.locations.count)
+        return MKPolyline(coordinates: &coords, count: (run.locations?.count)!)
     }
+    
     func loadMap() {
-        if run.locations.count > 0 {
+        
+        guard let runLocations =  run.locations else { return }
+        
+        if runLocations.count > 0 {
             mapView.isHidden = false
             
             // Set the map bounds
@@ -124,4 +148,5 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
             self.present(alertController, animated: true, completion: nil)
         }
     }
+
 }

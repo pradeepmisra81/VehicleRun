@@ -127,27 +127,40 @@ func saveRun() {
 // Save Run
 let savedRun = NSEntityDescription.insertNewObject(forEntityName: "Run",
 into: managedObjectContext!) as! Run
+
 savedRun.distance = NSNumber(value: distance)
+
 savedRun.duration = (NSNumber(value: seconds))
+
 savedRun.timestamp = NSDate() as Date
 
 // Save Location
+
 var savedLocations = [Location]()
+
 for customLocation in customLocations {
 
 let savedLocation = NSEntityDescription.insertNewObject(forEntityName: "Location",
 into: managedObjectContext!) as! Location
 
 guard let timeStamp = customLocation.timestamp else { return }
+
 guard let latValue = customLocation.latitude else { return }
+
 guard let longValue = customLocation.longitude else { return }
+
 guard let currentTimeInterval = customLocation.currenttimeinterval else { return }
+
 guard let nextTimeInterval = customLocation.nexttimeinterval else { return }
 
 savedLocation.timestamp = timeStamp
+
 savedLocation.latitude = NSNumber(value: latValue)
+
 savedLocation.longitude = NSNumber(value: longValue)
+
 savedLocation.currenttimeinterval = NSNumber(value: currentTimeInterval)
+
 savedLocation.nexttimeinterval = NSNumber(value: nextTimeInterval)
 
 savedLocations.append(savedLocation)
@@ -155,6 +168,7 @@ savedLocations.append(savedLocation)
 }
 
 savedRun.locations = NSOrderedSet(array: savedLocations)
+
 run = savedRun
 
 //Save Location and Run details in Core Data using managedObjectContext
