@@ -21,24 +21,17 @@ class VehicleRunPresenter {
      */
     func calculateNextTimeInterval(_ currentSpeed:Double, pastSpeed:Double, currentTimeInterval:Double) -> Double {
         
-        let speedDiff = abs(currentSpeed - pastSpeed)
+        let interactor = VehicleRunInteractor()
         
-        var nextTimeInterval = currentTimeInterval
+        return interactor.calculateNextTimeInterval(currentSpeed, pastSpeed: pastSpeed, currentTimeInterval: currentTimeInterval)
+    }
+    
+    /**
+     * @description Function is called to save the Run and Location
+     */
+    func saveRun() {
         
-        // Implemented logic for location update based on the vehicle speed
-        switch (currentSpeed,speedDiff, currentTimeInterval) {
-        case let (currentSpeed,speedDiff, currentTimeInterval) where (currentSpeed >= 80 && speedDiff <= 20) || (currentSpeed > pastSpeed && speedDiff > 20 && currentTimeInterval == 30) || (currentSpeed > pastSpeed && speedDiff > 20 && currentTimeInterval == 60):
-            nextTimeInterval = 30
-        case let (currentSpeed,speedDiff, currentTimeInterval) where (currentSpeed >= 60 && currentSpeed < 80 && speedDiff <= 20) || (currentSpeed > pastSpeed && speedDiff > 20 && currentTimeInterval == 120) || (currentSpeed < pastSpeed && speedDiff > 20 && currentTimeInterval == 30):
-            nextTimeInterval = 60
-        case let (currentSpeed,speedDiff, currentTimeInterval) where (currentSpeed >= 30 && currentSpeed < 60 && speedDiff <= 20) || (currentSpeed > pastSpeed && speedDiff > 20 && currentTimeInterval == 300) || (currentSpeed < pastSpeed && speedDiff > 20 && currentTimeInterval == 60):
-            nextTimeInterval = 120
-        case let (currentSpeed,speedDiff, currentTimeInterval) where (currentSpeed < 30 && speedDiff <= 20) || (currentSpeed < pastSpeed && speedDiff > 20 && currentTimeInterval == 120):
-            nextTimeInterval = 300
-        default:
-            nextTimeInterval = 300
-        }
-        
-        return nextTimeInterval
+        let interactor = VehicleRunInteractor()
+        interactor.saveRun()
     }
 }

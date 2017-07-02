@@ -16,6 +16,8 @@ class HomeViewController: UIViewController {
     if segue.destination.isKind(of: VehicleRunViewController.self) {
       if let vehicleRunViewController = segue.destination as? VehicleRunViewController {
         vehicleRunViewController.managedObjectContext = managedObjectContext
+        let interactor = VehicleRunInteractor()
+        interactor.managedObjectContext = managedObjectContext
       }
     }
   }
