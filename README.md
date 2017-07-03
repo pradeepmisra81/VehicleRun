@@ -10,9 +10,9 @@ https://www.raywenderlich.com/97944/make-app-like-runkeeper-swift-part-1
 
 #Supported Version: iOS 10.x
 
-#Logic in the file VehicleRunPresenter.swift 
+#Logic in the Interactor module
 
-File: VehicleRunPresenter.swift
+File: VehicleRunInteractor.swift
 
 
 /**
