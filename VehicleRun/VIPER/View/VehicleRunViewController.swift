@@ -20,7 +20,8 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     // MARK: properties
     
     var managedObjectContext: NSManagedObjectContext?
-    var run: Run!
+    var presenter: VehicleRunPresenter?
+    var run: Run?
     var seconds = 0.0
     var distance = 0.0
     var instantPace = 0.0
@@ -116,6 +117,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let detailViewController = segue.destination as? DetailViewController {
+            //let presenter = VehicleRunPresenter()
             detailViewController.run = run
         }
     }
@@ -170,7 +172,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
      * @description: Function is called on tap the stop button to stop capturing the vehicle location, speed etc
      */
     @IBAction func stopPressed(_ sender: AnyObject) {
-        self.locationManager.stopUpdatingLocation();        
+        self.locationManager.stopUpdatingLocation();
         let actionSheet = UIAlertController.init(title: "Run Stopped", message: nil, preferredStyle: .actionSheet)
                         actionSheet.addAction(UIAlertAction.init(title: "Save Run", style: UIAlertActionStyle.default, handler: { (action) in
                             self.saveRun();
@@ -219,8 +221,16 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         vehiclePastSpeed = vehicleCurrentSpeed
         
         // calculate the time interval for the location update
-        let presenter = VehicleRunPresenter()
-        
+        guard let managedObjectContext = self.managedObjectContext else {
+            return
+        }
+        presenter = VehicleRunPresenter(managedObjectContext)
+        guard let presenter = presenter else {
+            // Error
+            print("Error: presenter is not initialised")
+            return
+        }
+            
         nextTimeInterval = presenter.calculateNextTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, currentTimeInterval: currentTimeInterval)
         
         
@@ -264,6 +274,8 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
      * @description Function is called to save the Run and Location
      */
     func saveRun() {
+        
+        
         // Save Run
         let savedRun = NSEntityDescription.insertNewObject(forEntityName: "Run",
                                                            into: managedObjectContext!) as! Run

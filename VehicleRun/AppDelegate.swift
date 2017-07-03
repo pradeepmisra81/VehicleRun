@@ -14,12 +14,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
 
-
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     let navigationController = window!.rootViewController as! UINavigationController
-    let controller = navigationController.topViewController as! HomeViewController
-    controller.managedObjectContext = managedObjectContext
+    
+    guard let controller = navigationController.topViewController else { return false }
+    
+    guard let managedObjectContext = managedObjectContext else { return false}
+    
+    _ = VehicleRunRouter(navigationController: navigationController, homeViewController: controller as! HomeViewController, managedobjectcontest: managedObjectContext)
+    
     return true
   }
 

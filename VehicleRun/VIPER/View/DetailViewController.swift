@@ -11,7 +11,7 @@ import MapKit
 import HealthKit
 
 class DetailViewController: UIViewController,MKMapViewDelegate {
-    var run: Run!
+    var run: Run?
     var mapOverlay: MKTileOverlay!
     
     @IBOutlet weak var mapView: MKMapView!
@@ -27,6 +27,8 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
     
     func configureView() {
         
+        //guard let run = presenter.run else { return }
+        guard let run = run else { return }
         guard let runTimeStamp = run.timestamp else { return }
         guard let runDuration = run.duration else { return }
         guard let runDistance = run.distance else { return }
@@ -55,6 +57,12 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
     
     
     func mapRegion() -> MKCoordinateRegion {
+        
+        guard let run = run else { return MKCoordinateRegion (
+            center: CLLocationCoordinate2D(latitude: 0,
+                                           longitude: 0),
+            span: MKCoordinateSpan(latitudeDelta: 0,
+                                   longitudeDelta: 0)) }
         
         guard let runLocations = run.locations else { return MKCoordinateRegion (
             center: CLLocationCoordinate2D(latitude: 0,
@@ -109,6 +117,8 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
         
         var coords = [CLLocationCoordinate2D]()
         
+        guard let run = run else { return MKPolyline(coordinates: &coords, count: 0) }
+        
         guard let runLocations = run.locations else {
             return MKPolyline(coordinates: &coords, count: 0)
         }
@@ -126,10 +136,12 @@ class DetailViewController: UIViewController,MKMapViewDelegate {
             print("Time:\(dateFormatter.string(from: customLocation.timestamp)), Latitude: \(customLocation.latitude.doubleValue), Longitude: \(customLocation.longitude.doubleValue), Current time interval(in seconds):\(customLocation.currenttimeinterval.doubleValue), Next time interval(in seconds) :\(customLocation.nexttimeinterval.doubleValue)")
         }
         
-        return MKPolyline(coordinates: &coords, count: (run.locations?.count)!)
+        return MKPolyline(coordinates: &coords, count: runLocations.count)
     }
     
     func loadMap() {
+        
+        guard let run = run else { return }
         
         guard let runLocations =  run.locations else { return }
         

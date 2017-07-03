@@ -7,9 +7,27 @@
 //
 
 import Foundation
+import CoreData
 
 // Presenter class in VIPER architecture
 class VehicleRunPresenter {
+    
+    // MARK: properties
+    var managedObjectContext: NSManagedObjectContext
+    var interactor:VehicleRunInteractor
+    var run: Run
+    
+    // MARK: member functions
+    init(_ moc: NSManagedObjectContext) {
+        managedObjectContext = moc
+        interactor = VehicleRunInteractor(managedObjectContext)
+        run = interactor.saveRun()
+    }
+    
+//    convenience init() {
+//        self.init()
+//        interactor = VehicleRunInteractor()
+//    }
     
     /**
      * @description: Function is called to calculate the next time interval which is based on the current
@@ -21,17 +39,14 @@ class VehicleRunPresenter {
      */
     func calculateNextTimeInterval(_ currentSpeed:Double, pastSpeed:Double, currentTimeInterval:Double) -> Double {
         
-        let interactor = VehicleRunInteractor()
-        
         return interactor.calculateNextTimeInterval(currentSpeed, pastSpeed: pastSpeed, currentTimeInterval: currentTimeInterval)
     }
     
     /**
      * @description Function is called to save the Run and Location
      */
-    func saveRun() {
-        
-        let interactor = VehicleRunInteractor()
-        interactor.saveRun()
+    func saveRun() -> Run {
+
+        return interactor.saveRun()
     }
 }
