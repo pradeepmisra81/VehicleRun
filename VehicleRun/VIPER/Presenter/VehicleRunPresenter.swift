@@ -13,21 +13,24 @@ import CoreData
 class VehicleRunPresenter {
     
     // MARK: properties
-    var managedObjectContext: NSManagedObjectContext
+    var managedObjectContext: NSManagedObjectContext? = nil
     var interactor:VehicleRunInteractor
-    var run: Run
+    lazy var customLocations = [CustomLocation]()
+    //var run: Run
     
     // MARK: member functions
     init(_ moc: NSManagedObjectContext) {
         managedObjectContext = moc
-        interactor = VehicleRunInteractor(managedObjectContext)
-        run = interactor.saveRun()
+        interactor = VehicleRunInteractor(managedObjectContext!)
+        //run = interactor.saveRun()
     }
     
-//    convenience init() {
-//        self.init()
-//        interactor = VehicleRunInteractor()
-//    }
+    convenience init() {
+        let delegate = AppDelegate.getDelegate()
+        let managedObjectContext = delegate.managedObjectContext
+        self.init(managedObjectContext!)
+        
+    }
     
     /**
      * @description: Function is called to calculate the next time interval which is based on the current
@@ -47,6 +50,7 @@ class VehicleRunPresenter {
      */
     func saveRun() -> Run {
 
+        interactor.customLocations = customLocations
         return interactor.saveRun()
     }
 }

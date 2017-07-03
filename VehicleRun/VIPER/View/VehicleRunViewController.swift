@@ -68,6 +68,11 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView2.delegate = self;
+        // calculate the time interval for the location update
+        guard let managedObjectContext = self.managedObjectContext else {
+            return
+        }
+        presenter = VehicleRunPresenter(managedObjectContext)
         
         mapView2.showsUserLocation = true
     }
@@ -135,6 +140,12 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
      * @params: sender of AnyObject type
      */
     @IBAction func startPressed(_ sender: AnyObject) {
+        guard let presenter = presenter else {
+            // Error
+            print("Error: presenter is not initialised")
+            return
+        }
+        
         startButton.isHidden = true
         promptLabel.isHidden = true
         timeLabel.isHidden = false
@@ -151,7 +162,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         vehicleCurrentSpeed = 0.0
         vehiclePastSpeed = 0.0
         locations.removeAll(keepingCapacity: false)
-        customLocations.removeAll(keepingCapacity: false)
+        presenter.customLocations.removeAll(keepingCapacity: false)
         
         
         timeLabel.text = "Time: 0"
@@ -220,17 +231,11 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         
         vehiclePastSpeed = vehicleCurrentSpeed
         
-        // calculate the time interval for the location update
-        guard let managedObjectContext = self.managedObjectContext else {
-            return
-        }
-        presenter = VehicleRunPresenter(managedObjectContext)
         guard let presenter = presenter else {
             // Error
             print("Error: presenter is not initialised")
             return
         }
-            
         nextTimeInterval = presenter.calculateNextTimeInterval(vehicleCurrentSpeed, pastSpeed: vehiclePastSpeed, currentTimeInterval: currentTimeInterval)
         
         
@@ -245,7 +250,7 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
 
         let customLocation = CustomLocation(timestamp: timeStamp, latitude:lat, longitude: long, currenttimeinterval: currentTimeInterval, nexttimeinterval: nextTimeInterval)
         
-        customLocations.append(customLocation)
+        presenter.customLocations.append(customLocation)
         locationLabel.text = currentlocationMessage
         
         if currentTimeInterval != nextTimeInterval {
@@ -275,7 +280,15 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
      */
     func saveRun() {
         
+        guard let presenter = presenter else {
+            // Error
+            print("Error: presenter is not initialised")
+            abort()
+        }
+        run = presenter.saveRun()
+ 
         
+        /*
         // Save Run
         let savedRun = NSEntityDescription.insertNewObject(forEntityName: "Run",
                                                            into: managedObjectContext!) as! Run
@@ -311,6 +324,8 @@ class VehicleRunViewController: UIViewController,MKMapViewDelegate,CLLocationMan
         }catch{
             print("Could not save the run!")
         }
+ */
+ 
     }
     
     // MARK: delegates

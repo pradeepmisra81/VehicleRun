@@ -8,10 +8,13 @@
 
 import UIKit
 import XCTest
+import CoreData
 @testable import VehicleRun
 
 class VehicleRunTests: XCTestCase {
 
+    var managedObjectContext: NSManagedObjectContext?
+    
     override func setUp() {
         super.setUp()
     }
@@ -29,7 +32,7 @@ class VehicleRunTests: XCTestCase {
         let pastSpeedArray:[Double]                 =   [40.0,  80.0, 90.0, 9.0,   19.0,  29.0,   39.0,  9.0,  89.0, 39.0, 69.0, 59.0]
         let currentTimeIntervalArray:[Double]       =   [120.0, 30.0, 30.0, 300.0, 300.0, 300.0, 120.0, 300.0, 30.0, 120.0, 60.0, 120.0]
         let expectedNextTimeIntervalArray:[Double]  =   [60.0,  30.0, 60.0, 300.0, 300.0, 120.0, 120.0, 120.0, 60.0, 60.0, 30.0, 60.0]
-        
+                
         let presenter = VehicleRunPresenter()
         
         for i in 0..<currentSpeedArray.count {

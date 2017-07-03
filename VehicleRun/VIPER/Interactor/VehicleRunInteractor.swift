@@ -27,9 +27,9 @@ class VehicleRunInteractor {
         managedObjectContext = moc
     }
     
-    convenience init() {
-        self.init()
-    }
+//    convenience init() {
+//        self.init()
+//    }
     
     /**
      * @description: Function is called to calculate the next time interval which is based on the current
@@ -54,9 +54,9 @@ class VehicleRunInteractor {
         case let (currentSpeed,speedDiff, currentTimeInterval) where (currentSpeed >= 30 && currentSpeed < 60 && speedDiff <= 20) || (currentSpeed > pastSpeed && speedDiff > 20 && currentTimeInterval == 300) || (currentSpeed < pastSpeed && speedDiff > 20 && currentTimeInterval == 60):
             nextTimeInterval = 120
         case let (currentSpeed,speedDiff, currentTimeInterval) where (currentSpeed < 30 && speedDiff <= 20) || (currentSpeed < pastSpeed && speedDiff > 20 && currentTimeInterval == 120):
-            nextTimeInterval = 10
+            nextTimeInterval = 300
         default:
-            nextTimeInterval = 10
+            nextTimeInterval = 300
         }
         
         return nextTimeInterval
@@ -67,10 +67,11 @@ class VehicleRunInteractor {
      */
     func saveRun() -> Run {
         // Save Run
-        //guard let managedObjectContext = managedObjectContext else { return }
+        let delegate = AppDelegate.getDelegate()
+        guard let managedObjectContext = delegate.managedObjectContext else { abort() }
         
         let savedRun = NSEntityDescription.insertNewObject(forEntityName: "Run",
-                                                           into: managedObjectContext!) as! Run
+                                                           into: managedObjectContext) as! Run
         savedRun.distance = NSNumber(value: distance)
         savedRun.duration = (NSNumber(value: seconds))
         savedRun.timestamp = NSDate() as Date
@@ -80,7 +81,7 @@ class VehicleRunInteractor {
         
         for customLocation in customLocations {
             let savedLocation = NSEntityDescription.insertNewObject(forEntityName: "Location",
-                                                                    into: managedObjectContext!) as! Location
+                                                                    into: managedObjectContext) as! Location
             
             guard let timeStamp = customLocation.timestamp else { return savedRun }
             guard let latValue = customLocation.latitude else { return savedRun }
@@ -101,12 +102,12 @@ class VehicleRunInteractor {
         
         //Save Location and Run details in Core Data using managedObjectContext
         do{
-            try managedObjectContext?.save()
+            try managedObjectContext.save()
         }catch{
             print("Could not save the run!")
         }
         
-        return savedRun
+        return run!
     }
     
 }

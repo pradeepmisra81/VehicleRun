@@ -13,7 +13,8 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
-
+  static var router:VehicleRunRouter? = nil
+    
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     let navigationController = window!.rootViewController as! UINavigationController
@@ -22,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     guard let managedObjectContext = managedObjectContext else { return false}
     
-    _ = VehicleRunRouter(navigationController: navigationController, homeViewController: controller as! HomeViewController, managedobjectcontest: managedObjectContext)
+    AppDelegate.router = VehicleRunRouter(navigationController: navigationController, homeViewController: controller as! HomeViewController, managedobjectcontest: managedObjectContext)
     
     return true
   }
@@ -51,6 +52,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     saveContext()
   }
 
+    class func getRouter() -> VehicleRunRouter {
+        
+        if let router = AppDelegate.router {
+        return router
+        }
+        else {
+            //Error:
+            print("Error: router is not available")
+            abort()
+        }
+    }
+    
+    class func getDelegate() -> AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+    
   // MARK: - Core Data stack
 
   lazy var applicationDocumentsDirectory: URL = {
